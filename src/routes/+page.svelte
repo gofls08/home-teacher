@@ -1,8 +1,9 @@
 <script lang="ts">
-	 import { onMount } from "svelte";
+	 import Sidebar from "./lib/sidebar.svelte";
+	import { onMount } from "svelte";
 
 	 function main(){
-		location.href = "/main";
+		location.href = "/community";
 	 }
 	
 </script>
@@ -10,7 +11,9 @@
 	<div class="log-in">
 		<div class="name">Home Teacher</div>
 		<button on:click={main}> Sign in with Google </button>
+
 	</div>
+
 </div>
 
 <style>
