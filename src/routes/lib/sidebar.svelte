@@ -1,6 +1,8 @@
 <script>
      import { createEventDispatcher } from "svelte";
+     import { onMount } from "svelte";
    
+     
       const dispatch = createEventDispatcher();
 
     const is = () => {
@@ -15,6 +17,10 @@
      }
      function Message(){
           location.href = '/message';
+     }
+
+     function main(){
+          location .href= '/';
      }
 </script>
 
@@ -34,6 +40,7 @@
                     Message
                </li>
           </ul>
+          <div id="logout" on:click={main}>log-out</div>
      </div>
      </main>
      
@@ -50,5 +57,10 @@
      }
     li{
      margin: 10px;
+    }
+    #logout{
+     text-align: center;
+     margin-top: 500px;
+     /* margin-right: 5px; */
     }
 </style>
