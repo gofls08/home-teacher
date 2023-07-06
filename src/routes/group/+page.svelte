@@ -1,5 +1,5 @@
 <script>
-	import Sidebar from "../lib/sidebar.svelte";
+	import Sidebar from "../../lib/component/sidebar.svelte";
 
 	let isSide = true;
 
@@ -19,8 +19,7 @@
 	{#if isSide}
 		<main>
 			<div id="side">
-				<Sidebar 
-				on:exit={() => (isSide = false)}
+				<Sidebar on:exit={() => (isSide = false)}
 				/>
 			</div>
 		</main>
@@ -36,6 +35,7 @@
 	}
 	body {
 		background-color: rgb(237, 237, 250);
+		height: 100vh;
 	}
 	input {
 		display: block;

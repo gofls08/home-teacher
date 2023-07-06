@@ -1,8 +1,10 @@
-<script>
-    import Sidebar from "../lib/sidebar.svelte";
-
+<script lang="ts">
+    import { login } from "$lib/script/login";
+    import Sidebar from "$lib/component/sidebar.svelte";
+    import type { PageServerData } from "./$types"
+    export let data:PageServerData;
     let isSide = true;
-
+    
     function is() {
         isSide = true;
     }
@@ -42,6 +44,7 @@
     }
     body {
         background-color: rgb(237, 237, 250);
+        height: 100vh;
     }
     input {
         display: block;

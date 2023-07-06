@@ -1,6 +1,13 @@
-<script>
+<script lang="ts">
+	  import { login, logout } from "$lib/script/login";
+    import Sidebar from "$lib/component/sidebar.svelte";
+	import { goto } from "$app/navigation";
+    import type { PageServerData } from "./$types"
+    export let data:PageServerData;
+	
+	
     function community(){
-        location.href='/community';
+        goto("/community");
     }
 </script>
     <div id="container">
@@ -9,9 +16,9 @@
             
             <button on:click={community}> Start </button>
 
-            <!-- <button id="logout" on:click={async() => {
-                await logout(firebaseConfig);
-            }}>log-out</button> -->
+            <div id="logout" on:click={async() => {
+                await logout(data.firebaseConfig);
+            }}>log-out</div>
         </div>
     </div>
 
@@ -48,8 +55,8 @@
 		font-size: 15px;
 	}
 
-	/* #logout{
-        margin-top: 20px;
+	 #logout{
+        margin-top: 10px;
         text-decoration: underline;
-    } */
+    } 
 </style>
