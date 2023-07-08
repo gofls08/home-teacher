@@ -1,22 +1,11 @@
 <script lang="ts">
     import { login } from "$lib/script/login";
-    import Sidebar from "$lib/component/sidebar.svelte";
     import type { PageServerData } from "./$types"
     export let data:PageServerData;
-    let isSide = true;
-    
-    function is() {
-        isSide = true;
-    }
+   
 </script>
 
 <body>
-    <div
-        style="text-align:right; font-size: 20px; margin-right: 5px;"
-        on:click={is}
-    >
-        O
-    </div>
     <div id="name">Message</div>
     <div class="searchBox">
         <span>
@@ -26,13 +15,6 @@
     <div id="container">
         <button> +message </button>
     </div>
-    {#if isSide}
-        <main>
-            <div id="side">
-                <Sidebar on:exit={() => (isSide = false)} />
-            </div>
-        </main>
-    {/if}
 </body>
 
 <style>
@@ -63,21 +45,7 @@
         /* height:100vh; */
         overflow: hidden;
     }
-    main {
-        display: flex;
-        width: 100vw;
-        height: 100vh;
-        overflow-x: hidden;
-        box-sizing: border-box;
-    }
-    #side {
-        position: fixed;
-        right: 0;
-        top: 0;
-        height: 100vh;
-        width: 320px;
-        background-color: white;
-    }
+    
     button {
         display: block;
         border: 1px solid rgb(132, 132, 216);
