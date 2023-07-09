@@ -1,6 +1,5 @@
 <script lang="ts">
-	  import { login, logout } from "$lib/script/login";
-    import Sidebar from "$lib/component/sidebar.svelte";
+	  import { logout } from "$lib/script/login";
 	import { goto } from "$app/navigation";
     import type { PageServerData } from "./$types"
     export let data:PageServerData;
