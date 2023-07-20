@@ -14,7 +14,14 @@
     import type { PageData } from "./$types";
     import { goto } from "$app/navigation";
     export let data: PageData;
-    import { Navbar, NavBrand, NavLi, NavUl, NavHamburger, Button, Input,Drawer, CloseButton, Sidebar, SidebarBrand, SidebarCta, SidebarDropdownItem, SidebarDropdownWrapper, SidebarGroup, SidebarItem, SidebarWrapper } from 'flowbite-svelte'
+    import { 
+      Drawer,
+       CloseButton,
+       Sidebar,
+       SidebarGroup,
+       SidebarItem,
+       SidebarWrapper,
+      Spinner, } from 'flowbite-svelte'
     import { sineIn } from 'svelte/easing';
   let hidden2 = true;
   let spanClass = 'flex-1 ml-3 whitespace-nowrap';
@@ -51,7 +58,13 @@
 </script>
 
 {#if loading}
-    <div>LOADING...</div>
+<div style="display: flex;
+flex-direction: column;
+align-items: center; margin-top:23%;">
+  <Spinner color="purple" />
+</div>
+
+
 {:else if curUser}
 <div style="padding-left:97%; font-size: 40px; background-color: rgb(237, 237, 250);" on:click={() => (hidden2 = false)}
         >≡</div>
