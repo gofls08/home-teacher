@@ -40,56 +40,152 @@
 		con=false;
 	}
 	
-	
+	const groupList = [];
+
  	
 </script>
 
 <body>
-	<div style="font-size: 30px; font-weight:bold;">
+	<div style="font-size: 40px; font-weight:bold;">
 		Community
 	</div>
 
 	<br>
-
-	<div class="group-1" style="width: 100%;
-	height:300px
-	padding: 20px;
-	overflow: scroll;
-	border: 1px solid #000;
-	overflow: auto;
-	white-space: nowrap;">
-		<Card style="display:inline-block; height:200px; white-space:normal">
+	<!-- {#each groupList as name }
+		
+	{/each} -->
+	<div class="group" >
+		<div style="margin: 10px; font-size:25px; font-weight:bold;">group-1</div>
+		<Card href="./group/1" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">집 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/1" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">가 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/1" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">고 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/1" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">싶 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/1" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">다 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+	</div>
+	<div class="group">
+		<div style="margin: 10px; font-size:25px; font-weight:bold;">group-2</div>
+		<Card href="./group/2" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">집 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/2" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">보 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/2" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">내 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/2" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">줘 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/2" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">요 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+	</div>
+	<div class="group">
+		<div style="margin: 10px; font-size:25px; font-weight:bold;">group-3</div>
+		<Card href="./group/3" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">나 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/3" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">머 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/3" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">지 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/3" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">싫 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+			<Card href="./group/3" style="display:inline-block; height:200px; white-space:normal">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">어 Noteworthy technology acquisitions 2021</h5>
+				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+				</p>
+			</Card>
+	</div>
+	<div class="group">
+		<div style="margin: 10px; font-size:25px; font-weight:bold;">group-4</div>
+		<Card href="./group/4" style="display:inline-block; height:200px; white-space:normal">
 				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
 				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
 				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
 				</p>
 			</Card>
-			<Card style="display:inline-block; height:200px; white-space:normal">
+			<Card href="./group/4" style="display:inline-block; height:200px; white-space:normal">
 				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
 				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
 				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
 				</p>
 			</Card>
-			<Card style="display:inline-block; height:200px; white-space:normal">
+			<Card href="./group/4" style="display:inline-block; height:200px; white-space:normal">
 				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
 				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
 				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
 				</p>
 			</Card>
-			<Card style="display:inline-block; height:200px; white-space:normal">
+			<Card href="./group/4" style="display:inline-block; height:200px; white-space:normal">
 				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
 				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
 				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
 				</p>
 			</Card>
-			<Card style="display:inline-block; height:200px; white-space:normal">
+			<Card href="./group/4" style="display:inline-block; height:200px; white-space:normal">
 				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
 				<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
 				Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
 				</p>
 			</Card>
 	</div>
-	
 
 <div on:click={content} >
 	<SpeedDial defaultClass="absolute right-24 bottom-6" color="purple"  tooltip="none" style="background-color:rgb(132, 132, 216);">
@@ -135,5 +231,22 @@
 		background-color: black;
 		width: 100px;
 		height: 100px;
+	}
+	.group{
+		margin-top: 30px;
+		width: 100%;
+		height:300px;
+		padding-bottom: 20px;
+		overflow: scroll;
+		border: 1px none #000;
+		overflow: auto;
+		white-space: nowrap;
+	}
+	body{
+		width: 100%;
+		height: 745px;
+		padding: 20px;
+		overflow: scroll;
+		border: 1px none #000;
 	}
 </style>
