@@ -1,7 +1,7 @@
 <script lang="ts">
     import "../app.postcss";
     import { onMount } from "svelte";
-    import { login, logout } from "$lib/script/login";
+    import { login, logout, } from "$lib/script/login";
     import {
         getAuth,
         onAuthStateChanged,
@@ -24,7 +24,8 @@
       NavLi,
       NavUl,
       NavHamburger,
-      Input
+      Input,
+      Dropdown, DropdownItem, Chevron, DropdownDivider
      } from 'flowbite-svelte'
     import { sineIn } from 'svelte/easing';
   let hidden2 = true;
@@ -54,10 +55,6 @@
         }; //이벤트 해지
     });
 
-    function community() {
-        goto("/community");
-    }
-
     //  $: i = curUser;
 </script>
 
@@ -67,42 +64,46 @@ flex-direction: column;
 align-items: center; margin-top:23%;">
   <Spinner color="purple" />
 </div>
-
-
-{:else if curUser}
+{:else}
 <Navbar let:hidden let:toggle>
   <NavBrand href="/">
-    <img
-      src="/images/flowbite-svelte-icon-logo.svg"
-      class="mr-3 h-6 sm:h-9"
-      alt="Flowbite Logo"
-    />
     <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
       Flowbite
     </span>
   </NavBrand>
-  <div class="flex md:order-2">
-    <Button color="none" data-collapse-toggle="mobile-menu-3" aria-controls="mobile-menu-3" aria-expanded="false" class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1" >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
-    </Button>
-    <div class="hidden relative md:block">
-      <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
-      </div>
-      <Input id="search-navbar" class="pl-10" placeholder="Search..." />
-    </div>
-    <NavHamburger on:click={toggle} />
-  </div>
+  <NavHamburger on:click={toggle} />
   <NavUl {hidden}>
-    <NavLi style="font-weight:bold" href="/" active={true}>Home</NavLi>
-    <NavLi style="font-weight:bold" href="/1">Group1</NavLi>
-    <NavLi style="font-weight:bold" href="/2">Group2</NavLi>
-    <NavLi style="font-weight:bold" href="/3">Group3</NavLi>
+    <NavLi href="/" active={true}>Home</NavLi>
+    <NavLi id="nav-menu1" class="cursor-pointer"><Chevron aligned>Group</Chevron></NavLi>
+    <NavLi href="/services">User</NavLi>
+    <NavLi href="/pricing">Community</NavLi>
+    <NavLi on:click={async ()=> {
+      await logout(firebaseConfig);
+  }}>Log-out</NavLi>
+    <Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
+      <DropdownItem>Group-1</DropdownItem>
+      <DropdownItem>Group-2</DropdownItem>
+      <DropdownItem>Group-3</DropdownItem>
+      <DropdownItem>Group-4</DropdownItem>
+    </Dropdown>
   </NavUl>
 </Navbar>
- 
+  {#if curUser}
+  <slot></slot>
+  {:else}
+    <div id="container">
+      <div style="font-weight:lighter; font-size:20px;">Please sign up</div>
+      <button on:click={async ()=> {
+        await login(firebaseConfig);
+    }}>sign up</button>
+    </div>
+  {/if}
     <slot></slot>
-{:else}
+{/if}
+
+<!-- {:else if curUser} -->
+
+<!-- {:else}
     <div id="container">
         <div class="log-in">
             <div class="name">Home Teacher</div>
@@ -116,40 +117,31 @@ align-items: center; margin-top:23%;">
         </div>
     </div>
 {/if}
-    
+     -->
 
 
 <style>
     #container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-    }
-    .log-in {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .name {
-        font-size: 50px;
-        font-weight: bold;
-        margin-bottom: 50px;
-        text-align: center;
+      padding-top: 2%;
+      padding-left: 45%;
+      width: 100vw;
+      height:20vh;
+      background-color:black; 
+      color:white; 
+      overflow: hidden;
     }
     button {
         display: block;
-        border: 1px solid rgb(132, 132, 216);
-        background-color: rgb(132, 132, 216);
+        border: 1px solid white;
         border-radius: 30px;
-        height: 56px;
-        width: 300px;
+        height: 40px;
+        width: 100px;
         padding: 0 20px;
         text-align: center;
         color: white;
         font-size: 15px;
+        margin-top: 20px;
+        margin-left: 10px;
     }
 
 </style>
