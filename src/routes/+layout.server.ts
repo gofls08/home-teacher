@@ -8,6 +8,7 @@ export const load:LayoutServerLoad = async () => {
         storageBucket,
         messagingSenderId,
         appId,
+        
     } = env;
     return {
         firebaseConfig:{
@@ -17,6 +18,7 @@ export const load:LayoutServerLoad = async () => {
             storageBucket,
             messagingSenderId,
             appId,
+
         }
     };
 }

@@ -41,40 +41,39 @@
  	
 </script>
 
-<body>
-	<div style="font-size: 40px; font-weight:bold;">
-		Group-1
+<body> 
+	<div style="display:flex; margin:20px;">
+		<div class="group">
+				<div style="width: 300px; height:200px;display:inline-block;">
+					<Card img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg">
+						<h5 class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology</h5>
+						<p class=" font-normal text-gray-700 dark:text-gray-400 leading-tight">
+							Here are the biggest enterprise... 
+						</p>
+					</Card>
+				</div>
+				<div style="width: 300px; height:200px;display:inline-block; margin-left:30px;">
+					<Card img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg">
+						<h5   class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology</h5>
+						<p class=" font-normal text-gray-700 dark:text-gray-400 leading-tight">
+							Here are the biggest enterprise... 
+						</p>
+					</Card>
+				</div>
+				<div style="width: 300px; height:200px;display:inline-block; margin-left:30px;">
+					<Card img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg">
+						<h5   class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology</h5>
+						<p class=" font-normal text-gray-700 dark:text-gray-400 leading-tight">
+							Here are the biggest enterprise... 
+						</p>
+					</Card>
+				</div>
+			</div>
+			<div class="message" style="width:30%;">
+				<div></div>
+			</div>
+			
 	</div>
-
-	<br>
-	<div class="group 1" style="margin: 30px;" >
-		
-		<div style="width: 300px; height:200px;display:inline-block;">
-			<Card img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg">
-				<h5 class=" text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology</h5>
-				<p class=" font-normal text-gray-700 dark:text-gray-400 leading-tight">
-					Here are the biggest enterprise... 
-				</p>
-			</Card>
-		</div>
-		<div style="width: 300px; height:200px;display:inline-block; margin-left:30px;">
-			<Card img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg">
-				<h5   class=" text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology</h5>
-				<p class=" font-normal text-gray-700 dark:text-gray-400 leading-tight">
-					Here are the biggest enterprise... 
-				</p>
-			</Card>
-		</div>
-		<div style="width: 300px; height:200px;display:inline-block; margin-left:30px;">
-			<Card img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg">
-				<h5   class=" text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology</h5>
-				<p class=" font-normal text-gray-700 dark:text-gray-400 leading-tight">
-					Here are the biggest enterprise... 
-				</p>
-			</Card>
-		</div>
-	</div>
-	
 	
 
 <div on:click={content} >
@@ -115,16 +114,18 @@
 	body{
 		background-color: rgb(237, 237, 250);
 		height: 100vh;
+		width:100vw;
 	}
 	.group{
 		margin-top: 30px;
-		width: 100%;
-		height:300px;
+		width: 70%;
+		height:100vh;
 		padding-bottom: 20px;
 		overflow: scroll;
 		border: 1px none #000;
 		overflow: auto;
 		white-space: nowrap;
+		border-right: 1px solid white;
 	}
 	body{
 		width: 100%;
