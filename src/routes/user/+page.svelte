@@ -13,7 +13,6 @@
     <div class="container">
         <div>
            <Avatar /> 
-           <div>name: {user.USERNAME}</div>
            
         </div>
     </div>
