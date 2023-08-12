@@ -76,15 +76,14 @@ align-items: center; margin-top:23%;">
   <NavUl {hidden}>
     <NavLi href="/" active={true}>Home</NavLi>
     <NavLi id="nav-menu1" class="cursor-pointer"><Chevron aligned>Group</Chevron></NavLi>
-    <NavLi href="/user">User</NavLi>
     <NavLi href="/community">Community</NavLi>
     <NavLi on:click={async ()=> {
       await logout(firebaseConfig);
   }}>Log-out</NavLi>
     <Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
-      <DropdownItem href="./group/1">Group-1</DropdownItem>
-      <DropdownItem href="./group/2">Group-2</DropdownItem>
-      <DropdownItem href="./group/3">Group-3</DropdownItem>
+      <DropdownItem href="/group/1">Group-1</DropdownItem>
+      <DropdownItem href="/group/2">Group-2</DropdownItem>
+      <DropdownItem href="/group/3">Group-3</DropdownItem>
     </Dropdown>
   </NavUl>
 </Navbar>
