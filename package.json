@@ -12,6 +12,7 @@
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.0.0",
     "@sveltejs/kit": "^1.5.0",
+    "@types/node": "^20.5.1",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",
     "postcss-load-config": "^4.0.1",
@@ -24,11 +25,13 @@
   },
   "type": "module",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.395.0",
     "@popperjs/core": "^2.11.8",
     "firebase": "^9.22.2",
     "flowbite": "^1.7.0",
     "flowbite-svelte": "^0.39.2",
     "mongodb": "^5.7.0",
-    "tailwind-merge": "^1.13.2"
+    "tailwind-merge": "^1.13.2",
+    "uuid": "^9.0.0"
   }
 }

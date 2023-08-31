@@ -1,4 +1,9 @@
 <script lang="ts">
+	import { createEventDispatcher, onMount } from "svelte";
+	import { S3Client, AbortMultipartUploadCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+	const dispatch = createEventDispatcher();
+	const albumBucketName = "project0884";
+	const bucketRegion = "ap-northeast-2";
 	import {
 		Modal,
 		Button,
@@ -12,28 +17,27 @@
 	} from "flowbite-svelte";
 
 	import { getAuth } from "firebase/auth";
-    import { text } from "svelte/internal";
 
 	const auth = getAuth();
 
 	const curUser = auth.currentUser;
-	let displayName=' ';
-	if(curUser !== null){
+	let displayName = " ";
+	if (curUser !== null) {
 		curUser.providerData.forEach((profile) => {
-			if(profile.displayName!==null){
-				displayName=profile.displayName;
+			if (profile.displayName !== null) {
+				displayName = profile.displayName;
 			}
-     
-  
-  });
+		});
 	}
-
 	
-	let chat = '';
-	interface iChat{
+	 
+
+	let chat = "";
+	interface iChat {
 		user: any | null;
-		chat:string;
-		date:Date;
+		chat: string;
+		date: Date;
+		GroupName: string;
 	}
 	let files: FileList;
 	let src = "";
@@ -58,18 +62,49 @@
 		con = false;
 	}
 
-	let chats:iChat[] = [
-		{ user:'김한결', chat:'안녕하세요.', date:new Date()},
-		{ user:'황해린', chat:'안녕하세요.', date:new Date()},
-		{ user:'이혜옥', chat:'안녕하세요.', date:new Date()}
-	]
+	let chats: iChat[] = [
+		{
+			user: "김한결",
+			chat: "안녕하세요.",
+			date: new Date(),
+			GroupName: "group-1",
+		},
+		{
+			user: "황해린",
+			chat: "안녕하세요.",
+			date: new Date(),
+			GroupName: "group-1",
+		},
+		{
+			user: "이혜옥",
+			chat: "안녕하세요.",
+			date: new Date(),
+			GroupName: "group-1",
+		},
+	];
+	onMount(async () => {
+		const s3 = new S3Client({
+			apiVersion: "2006-03-01",
+			region:bucketRegion,
+			credentials:{
+				accessKeyId:'AKIASQRGQ2EAQF2ICHV4',
+				secretAccessKey:'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'
+			}
+		});
+		const pro = await s3.send(new GetObjectCommand({
+			Bucket:albumBucketName,
+			Key:"포켓몬스터 시리즈/index.html"
+		}))
+		// console.log(await pro.Body.)
+	
+	})
 </script>
 
 <body>
 	<div style="display:flex; margin:20px;">
 		<div class="group">
 			<div style="width: 300px; height:200px;display:inline-block;">
-				<Card
+				<Card href="/post"
 					img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg"
 				>
 					<h5
@@ -87,7 +122,7 @@
 			<div
 				style="width: 300px; height:200px;display:inline-block; margin-left:30px;"
 			>
-				<Card
+				<Card href="/post"
 					img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg"
 				>
 					<h5
@@ -105,7 +140,7 @@
 			<div
 				style="width: 300px; height:200px;display:inline-block; margin-left:30px;"
 			>
-				<Card
+				<Card href="/post"
 					img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg"
 				>
 					<h5
@@ -123,37 +158,67 @@
 		</div>
 		{#if curUser}
 			<div
-			class="message"
-			style="width:30%;mergin-left:20px; background-color:white;"
-		>
-			<div class="chat_wrap">
-				<div class="header">CHAT</div>
-				<div class="chat">
-					<ul>
-						{#each chats as chat}
-							<li class="{displayName === chat.user ? 'right' : 'left'}">
-								<span class="profile">{chat.user.charAt(0)}</span>
-								<div class="message">{chat.chat}</div>
-							</li>
-						{/each}
-					</ul>
-				</div>
-				<div class="input-div">
-					<textarea bind:value={chat} on:keypress={e => {
-						if(e.code === 'Enter' && !e.shiftKey){
-							
-								chats = [...chats, { user:displayName, chat, date:new Date()}];
-								chat = '';
-								console.log(chats);
-								e.preventDefault();
-						}
-					}} placeholder="Press Enter for send message."></textarea>
+				class="message"
+				style="width:30%;mergin-left:20px; background-color:white;"
+			>
+				<div class="chat_wrap">
+					<div class="header">CHAT</div>
+					<div class="chat">
+						<ul>
+							{#each chats as chat}
+								<li
+									class={displayName === chat.user
+										? "right"
+										: "left"}
+								>
+									{#if displayName === chat.user}
+										<div class="message">{chat.chat}</div>
+										<span class="profile"
+											>{chat.user.charAt(0)}</span
+										>
+									{:else}
+										<span class="profile"
+											>{chat.user.charAt(0)}</span
+										>
+										<div class="message">{chat.chat}</div>
+									{/if}
+								</li>
+							{/each}
+						</ul>
+					</div>
+					<div class="input-div">
+						<textarea
+							bind:value={chat}
+							on:keypress={(e) => {
+								if (e.code === "Enter" && !e.shiftKey) {
+									chats = [
+										...chats,
+										{
+											user: displayName,
+											chat,
+											date: new Date(),
+											GroupName: "group-1",
+										},
+									];
+									// dispatch("chatting", {
+									// 	user: displayName,
+									// 		chat,
+									// 		date: new Date(),
+									// 		GroupName: 'group-1',
+									// });
+									chat = "";
+									// Array(displayName, chat, new Date());
+
+									// console.log(chats);
+									e.preventDefault();
+								}
+							}}
+							placeholder="Press Enter for send message."
+						/>
+					</div>
 				</div>
 			</div>
-		</div>
-		
 		{/if}
-		
 	</div>
 
 	<div on:click={content}>
@@ -221,7 +286,7 @@
 							/></svg
 						></ToolbarButton
 					>
-					
+
 					<ToolbarButton name="Upload image"
 						><svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -355,8 +420,10 @@
 	.chat_wrap .chat ul li > span.profile {
 		border: 1px solid black;
 		border-radius: 100%;
+		padding: 10px;
+		margin: 10px;
 	}
-	
+
 	.chat_wrap .chat ul li > div {
 		font-size: 13px;
 	}

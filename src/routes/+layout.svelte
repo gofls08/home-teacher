@@ -76,7 +76,6 @@ align-items: center; margin-top:23%;">
   <NavUl {hidden}>
     <NavLi href="/" active={true}>Home</NavLi>
     <NavLi id="nav-menu1" class="cursor-pointer"><Chevron aligned>Group</Chevron></NavLi>
-    <NavLi href="/community">Community</NavLi>
     <NavLi on:click={async ()=> {
       await logout(firebaseConfig);
   }}>Log-out</NavLi>
