@@ -19,14 +19,7 @@
         { GroupName: "group-2", join: false },
         { GroupName: "group-3", join: false },
     ];
-    import { onMount } from 'svelte';
-    onMount(async () => {
-        const group = 'group1'
-        const res = await fetch(`/api/user?group=${group}`);
-        const json = await res.json()
-        console.log(json)
-    })
-	
+
 </script>
 
 <body>

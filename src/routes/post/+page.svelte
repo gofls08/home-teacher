@@ -72,27 +72,48 @@
                     style="text-align:center; margin-left:20%; margin-bottom: 20px;"
                 />
                 <hr />
-                {#each replies as replies}
-                    {#if posts.user === replies.user}
-                        <div style="margin-top: 30px; margin-left:10px;">
-                            <span class="profile">{replies.user.charAt(0)}</span>
-                            <div class="reply">{replies.content}</div>
-                            <div class="date">{replies.date}</div>
-                        </div>
-                    {/if}
-                {/each}
-                <div class="input-div">
+                <div>
+                    
+                {#if curUser}
+                    {#each replies as replies}
+                        {#if posts.post === replies.post}
+                            <div style="margin-top: 30px; margin-left:10px;">
+                                <span class="profile">{replies.user.charAt(0)}</span>
+                                <div class="reply">{replies.content}</div>
+                                <div class="date">{replies.date}</div>
+                            </div>
+                        {/if}
+                    {/each}
+                    
                     <textarea
                         bind:value={content}
-                        on:keypress={(e) => {
+                        on:keypress={async(e) => {
                             if (e.code === "Enter" && !e.shiftKey) {
+                                const description={
+                                    post:posts.post,
+                                        user: displayName,
+                                        date: new Date(),
+                                        content,
+									 	}
+										
+									const response = await fetch("/api/post/upload", {
+										method: "POST",
+										body: JSON.stringify({ description }),
+										headers: {
+											"Content-Type": "application/json",
+										},
+									});
+									
+									
+
+									await response.json();
                                 replies = [
                                     ...replies,
                                     {
                                         post:posts.post,
                                         user: displayName,
                                         date: new Date(),
-                                       content,
+                                        content,
                                     },
                                 ];
                                 content="";
@@ -101,8 +122,12 @@
                             }
                         }}
                         placeholder="Press Enter for send message."
-                    />
+                    ></textarea>
+                
+                {/if}
+                
                 </div>
+                
             </div>
         {/each}
     </div>
@@ -160,10 +185,11 @@
         margin: 10px;
     }
     textarea{
-        width: 100%;
+		width: 100%;
 		height: 80px;
-		border: none;
-        background-color: gainsboro;
+        
+        border: 1px solid white;
+        border-top: 1px solid rgb(132, 132, 216);
 		padding: 10px;
     }
     .date{
@@ -171,4 +197,11 @@
         font-size: 12px;
         text-align: right;
     }
+    /* .input{
+       
+		bottom: 0;
+		width: 52%;
+		background-color: #fff;
+		border-top: 1px solid rgb(132, 132, 216);
+    } */
 </style>

@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from "svelte";
-	import { S3Client, AbortMultipartUploadCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+	import {
+		S3Client,
+		AbortMultipartUploadCommand,
+		GetObjectCommand,
+	} from "@aws-sdk/client-s3";
 	const dispatch = createEventDispatcher();
 	const albumBucketName = "project0884";
 	const bucketRegion = "ap-northeast-2";
@@ -17,6 +21,7 @@
 	} from "flowbite-svelte";
 
 	import { getAuth } from "firebase/auth";
+    
 
 	const auth = getAuth();
 
@@ -29,29 +34,37 @@
 			}
 		});
 	}
-	
-	 
+	interface iPost {
+        post: string;
+        user: any | null;
+        group: string;
+        date: Date;
+        title: string;
+        body: string;
+        img: string;
+    }
 
 	let chat = "";
 	interface iChat {
+		// _id: string;
 		user: any | null;
 		chat: string;
 		date: Date;
-		GroupName: string;
+		group: string;
 	}
-	let files: FileList;
-	let src = "";
-	$: {
-		if (files?.[0]) {
-			let t = files[0];
-			fetch(`/community/img?name=${t.name}`, {
-				method: "POST",
-				body: t,
-			}).then((v) => v.text());
-			URL.revokeObjectURL(src);
-			src = URL.createObjectURL(t);
-		}
-	}
+	// let files: FileList;
+	// let src = "";
+	// $: {
+	// 	if (files?.[0]) {
+	// 		let t = files[0];
+	// 		fetch(`/community/img?name=${t.name}`, {
+	// 			method: "POST",
+	// 			body: t,
+	// 		}).then((v) => v.text());
+	// 		URL.revokeObjectURL(src);
+	// 		src = URL.createObjectURL(t);
+	// 	}
+	// }
 
 	let con = false;
 
@@ -62,99 +75,71 @@
 		con = false;
 	}
 
-	let chats: iChat[] = [
+	let chatting:iChat[] =[];
+	let posts:iPost[]=[
 		{
-			user: "김한결",
-			chat: "안녕하세요.",
-			date: new Date(),
-			GroupName: "group-1",
-		},
-		{
-			user: "황해린",
-			chat: "안녕하세요.",
-			date: new Date(),
-			GroupName: "group-1",
-		},
-		{
-			user: "이혜옥",
-			chat: "안녕하세요.",
-			date: new Date(),
-			GroupName: "group-1",
-		},
+            post: "djfjlskfldjfksj",
+            user: "황해린",
+            group: "group1",
+            date: new Date(),
+            title: "오늘 수학 숙제",
+            body: "오늘 수학 숙제 교과서 50p~55p임 내일까지 수학부장에게 제출",
+            img: "https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg",
+        }
 	];
+
 	onMount(async () => {
 		const s3 = new S3Client({
 			apiVersion: "2006-03-01",
-			region:bucketRegion,
-			credentials:{
-				accessKeyId:'AKIASQRGQ2EAQF2ICHV4',
-				secretAccessKey:'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'
-			}
+			region: bucketRegion,
+			credentials: {
+				accessKeyId: "AKIASQRGQ2EAQF2ICHV4",
+				secretAccessKey: "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",
+			},
 		});
-		const pro = await s3.send(new GetObjectCommand({
-			Bucket:albumBucketName,
-			Key:"포켓몬스터 시리즈/index.html"
-		}))
+		const pro = await s3.send(
+			new GetObjectCommand({
+				Bucket: albumBucketName,
+				Key: "포켓몬스터 시리즈/index.html",
+			})
+		);
+		const group = 'group1'
+        const chat = await fetch(`/api/chat?group=${group}`);
+        chatting = await chat.json();
+		const post = await fetch(`/api/post?group=${group}`);
+        // posts = await post.json();
 		// console.log(await pro.Body.)
+	});
 	
-	})
+	function reload(){
+		window.location.reload();
+	}
+
+	
 </script>
 
 <body>
 	<div style="display:flex; margin:20px;">
 		<div class="group">
-			<div style="width: 300px; height:200px;display:inline-block;">
-				<Card href="/post"
+			{#each posts as post}
+				<div style="width: 300px; height:200px;display:inline-block;margin-left:30px;">
+				<Card
+					href="/post"
 					img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg"
 				>
 					<h5
 						class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white"
 					>
-						Noteworthy technology
+						{post.title.slice(0,15)}...
 					</h5>
 					<p
 						class=" font-normal text-gray-700 dark:text-gray-400 leading-tight"
 					>
-						Here are the biggest enterprise...
+						{post.body.slice(0,20)}...
 					</p>
 				</Card>
 			</div>
-			<div
-				style="width: 300px; height:200px;display:inline-block; margin-left:30px;"
-			>
-				<Card href="/post"
-					img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg"
-				>
-					<h5
-						class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white"
-					>
-						Noteworthy technology
-					</h5>
-					<p
-						class=" font-normal text-gray-700 dark:text-gray-400 leading-tight"
-					>
-						Here are the biggest enterprise...
-					</p>
-				</Card>
-			</div>
-			<div
-				style="width: 300px; height:200px;display:inline-block; margin-left:30px;"
-			>
-				<Card href="/post"
-					img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg"
-				>
-					<h5
-						class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white"
-					>
-						Noteworthy technology
-					</h5>
-					<p
-						class=" font-normal text-gray-700 dark:text-gray-400 leading-tight"
-					>
-						Here are the biggest enterprise...
-					</p>
-				</Card>
-			</div>
+			{/each}
 		</div>
 		{#if curUser}
 			<div
@@ -165,51 +150,68 @@
 					<div class="header">CHAT</div>
 					<div class="chat">
 						<ul>
-							{#each chats as chat}
-								<li
-									class={displayName === chat.user
+							{#each chatting as json, i}
+								{#if i>=chatting.length-10}
+										<li
+									class={displayName === json.user
 										? "right"
 										: "left"}
 								>
-									{#if displayName === chat.user}
-										<div class="message">{chat.chat}</div>
+									{#if displayName === json.user}
+										<div class="message">{json.chat}</div>
 										<span class="profile"
-											>{chat.user.charAt(0)}</span
+											>{json.user.charAt(0)}</span
 										>
 									{:else}
 										<span class="profile"
-											>{chat.user.charAt(0)}</span
+											>{json.user.charAt(0)}</span
 										>
-										<div class="message">{chat.chat}</div>
+										<div class="message">{json.chat}</div>
 									{/if}
-								</li>
+								</li>								
+								{/if}
+								
 							{/each}
 						</ul>
 					</div>
 					<div class="input-div">
 						<textarea
 							bind:value={chat}
-							on:keypress={(e) => {
+							on:keypress={async (e) => {
 								if (e.code === "Enter" && !e.shiftKey) {
-									chats = [
-										...chats,
-										{
-											user: displayName,
-											chat,
-											date: new Date(),
-											GroupName: "group-1",
+									// chats = [
+									// 	...chats,
+									// 	,
+									// ];
+									const description={
+									 		user: displayName,
+									 		chat,
+									 		date: new Date(),
+									 		group: "group1",
+									 	}
+										
+									const response = await fetch("/api/chat/upload", {
+										method: "POST",
+										body: JSON.stringify({ description }),
+										headers: {
+											"Content-Type": "application/json",
 										},
-									];
-									// dispatch("chatting", {
-									// 	user: displayName,
-									// 		chat,
-									// 		date: new Date(),
-									// 		GroupName: 'group-1',
-									// });
-									chat = "";
+									});
+									
 									// Array(displayName, chat, new Date());
 
-									// console.log(chats);
+									await response.json();
+									chatting = [
+										...chatting,
+										{
+											user: displayName,
+									 		chat,
+									 		date: new Date(),
+									 		group: "group1",
+										},
+									];
+									chat = "";
+									reload();
 									e.preventDefault();
 								}
 							}}
@@ -403,6 +405,7 @@
 
 	.chat_wrap .chat {
 		padding-bottom: 80px;
+		margin-top: 1;
 	}
 	.chat_wrap .chat ul {
 		width: 100%;
@@ -427,10 +430,7 @@
 	.chat_wrap .chat ul li > div {
 		font-size: 13px;
 	}
-	.chat_wrap .chat ul li > div.sender {
-		margin: 10px 20px 0 20px;
-		font-weight: bold;
-	}
+	
 	.chat_wrap .chat ul li > div.message {
 		display: inline-block;
 		word-break: break-all;
@@ -459,7 +459,5 @@
 		padding: 10px;
 	}
 
-	.format {
-		display: none;
-	}
+	
 </style>
