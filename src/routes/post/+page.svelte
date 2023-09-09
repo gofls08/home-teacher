@@ -1,5 +1,6 @@
 <script lang="ts">
     import { ImagePlaceholder } from "flowbite-svelte";
+    import { createEventDispatcher, onMount } from "svelte";
     import { Img, Avatar } from "flowbite-svelte";
     interface iPost {
         post: string;
@@ -24,17 +25,14 @@
             content: "집에 가고 싶다.",
         },
     ];
-    let posts: iPost[] = [
-        {
-            post: "djfjlskfldjfksj",
-            user: "황해린",
-            group: "group1",
-            date: new Date(),
-            title: "오늘 수학 숙제",
-            body: "오늘 수학 숙제 교과서 50p~55p임 내일까지 수학부장에게 제출",
-            img: "https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg",
-        },
-    ];
+    onMount(async () => {
+		const group = "group1";
+		const post = await fetch(`/api/post?group=${group}`);
+		postting = await post.json();
+		// posts = await post.json();
+		// console.log(await pro.Body.)
+	});
+    let postting: iPost[] = [];
     let content = "";
 
     import { getAuth } from "firebase/auth";
@@ -55,7 +53,8 @@
 
 <body>
     <div class="container">
-        {#each posts as posts}
+        {#each postting as posts}
+    
             <div class="post">
                 <div style="font-size: 30px; font-weight:bold;">{ posts.title}</div>
                 <div class="right">
@@ -90,13 +89,13 @@
                         on:keypress={async(e) => {
                             if (e.code === "Enter" && !e.shiftKey) {
                                 const description={
-                                    post:posts.post,
+                                        post:posts.post,
                                         user: displayName,
                                         date: new Date(),
                                         content,
 									 	}
 										
-									const response = await fetch("/api/post/upload", {
+									const response = await fetch("/api/reply/upload", {
 										method: "POST",
 										body: JSON.stringify({ description }),
 										headers: {
@@ -106,7 +105,7 @@
 									
 									
 
-									await response.json();
+								await response.json();
                                 replies = [
                                     ...replies,
                                     {

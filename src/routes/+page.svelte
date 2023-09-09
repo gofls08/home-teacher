@@ -11,21 +11,26 @@
     } from "flowbite-svelte";
 
     interface myGroup {
-        GroupName: string;
+        name: string;
         join: boolean;
     }
     let groups: myGroup[] = [
-        { GroupName: "group-1", join: true },
-        { GroupName: "group-2", join: false },
-        { GroupName: "group-3", join: false },
+        { name: "group-1", join: true },
+        { name: "group-2", join: false },
+        { name: "group-3", join: false },
     ];
+    let search = "";
+    let s ="";
 
+    function find(){
+        search=s;
+    }
 </script>
 
 <body>
     <form class="flex gap-2">
-        <Search size="md" />
-        <Button class="!p-2.5">
+        <Search size="md" bind:value={s}/>
+        <Button class="!p-2.5" on:click={find}>
             <svg
                 class="w-5 h-5"
                 fill="none"
@@ -43,8 +48,9 @@
     </form>
 
     <div class="container" style="display: flex;">
-        {#each groups as { GroupName, join }, i}
-            {#if join}
+        {#each groups as group, i}
+        {#if group.name.includes(search)}
+            {#if group.join}
                 <Card href="./group/{i + 1}" style="height:40%; margin:20px;">
                     <div class="flex justify-end">
                         <MenuButton />
@@ -57,7 +63,7 @@
                         <h5
                             class="mb-1 text-xl font-medium text-gray-900 dark:text-white"
                         >
-                            {GroupName}
+                            {group.name}
                         </h5>
                         <div class="flex mt-4 space-x-3 lg:mt-6">
                             <Button>Left this Group</Button>
@@ -77,7 +83,7 @@
                         <h5
                             class="mb-1 text-xl font-medium text-gray-900 dark:text-white"
                         >
-                            {GroupName}
+                            {group.name}
                         </h5>
                         <div class="flex mt-4 space-x-3 lg:mt-6">
                             <Button>Join this Group</Button>
@@ -85,6 +91,8 @@
                     </div>
                 </Card>
             {/if}
+        {/if}
+            
 
         {/each}
     </div>
