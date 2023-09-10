@@ -66,7 +66,9 @@
                             {group.name}
                         </h5>
                         <div class="flex mt-4 space-x-3 lg:mt-6">
-                            <Button>Left this Group</Button>
+                            <Button on:click={()=>{
+                                group.join = false;
+                            }} href="./">Left this Group</Button>
                         </div>
                     </div>
                 </Card>

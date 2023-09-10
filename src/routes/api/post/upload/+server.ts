@@ -3,10 +3,10 @@ import { json } from '@sveltejs/kit';
 
 export async function POST({request}){
     const { description } = await request.json();
-          const collection = db.collection("Post");
-          await collection.insertMany([
-            description
-          ]);
+    const collection = db.collection("Post");
+    await collection.insertMany([
+      description
+    ]);
      console.log(description);
-          return json(request);
+    return json(request);
 }

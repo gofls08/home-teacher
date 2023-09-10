@@ -5,6 +5,7 @@
 		AbortMultipartUploadCommand,
 		GetObjectCommand,
 	} from "@aws-sdk/client-s3";
+	import type { iPost, iChat } from "$lib/type";
 	const dispatch = createEventDispatcher();
 	const albumBucketName = "project0884";
 	const bucketRegion = "ap-northeast-2";
@@ -34,24 +35,9 @@
 			}
 		});
 	}
-	
-	interface iPost {
-		user: any | null;
-		group: string;
-		date: Date;
-		title: string;
-		body: string;
-		
-	}
 
 	let chat = "";
-	interface iChat {
-		// _id: string;
-		user: any | null;
-		chat: string;
-		date: Date;
-		group: string;
-	}
+	
 
 	let con = false;
 
@@ -69,20 +55,6 @@
 	let postting: iPost[] = [];
 
 	onMount(async () => {
-		const s3 = new S3Client({
-			apiVersion: "2006-03-01",
-			region: bucketRegion,
-			credentials: {
-				accessKeyId: "AKIASQRGQ2EAQF2ICHV4",
-				secretAccessKey: "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",
-			},
-		});
-		const pro = await s3.send(
-			new GetObjectCommand({
-				Bucket: albumBucketName,
-				Key: "포켓몬스터 시리즈/index.html",
-			})
-		);
 		const group = "group1";
 		const chat = await fetch(`/api/chat?group=${group}`);
 		chatting = await chat.json();
@@ -145,10 +117,8 @@
 				<div
 					style="width: 300px; height:200px;display:inline-block;margin-left:30px;"
 				>
-					<Card on:click={async()=> {
-						const res = await fetch(`/api/post/find?body=${post.body}`);
-					}}
-						href="/post"
+					<Card
+						href="/post/{post._id}"
 						img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg"
 					>
 						<h5
@@ -208,10 +178,6 @@
 							bind:value={chat}
 							on:keypress={async (e) => {
 								if (e.code === "Enter" && !e.shiftKey) {
-									// chats = [
-									// 	...chats,
-									// 	,
-									// ];
 									const description = {
 										user: displayName,
 										chat,
@@ -321,7 +287,7 @@
 					await response.json();
 					postting = [
 						...postting,
-						{
+						{	
 							user: displayName,
 							group: "group1",
 							date: new Date(),

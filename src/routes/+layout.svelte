@@ -95,8 +95,9 @@ align-items: center; margin-top:23%;">
         await login(firebaseConfig);
     }}>sign up</button>
     </div>
-  {/if}
     <slot></slot>
+  {/if}
+    
 {/if}
 
 
