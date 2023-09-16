@@ -4,6 +4,8 @@
 		S3Client,
 		AbortMultipartUploadCommand,
 		GetObjectCommand,
+		PutObjectCommand,
+		ListObjectsV2Command
 	} from "@aws-sdk/client-s3";
 	import type { iPost, iChat } from "$lib/type";
 	const dispatch = createEventDispatcher();
@@ -21,8 +23,20 @@
 		Card,
 		Search
 	} from "flowbite-svelte";
+	
+	export let data:PageServerData;
+	import type { PageServerData } from "./$types";
+	const s3 = new S3Client({
+			apiVersion: "2006-03-01",
+			region: bucketRegion,
+			credentials: {
+				accessKeyId:data.aws.AWS_ACCESS,
+				secretAccessKey: data.aws.AWS_SECRET_ACCESS
+			},
+		});
 
 	import { getAuth } from "firebase/auth";
+    import type { ImgType } from "flowbite-svelte/dist/types";
 
 	const auth = getAuth();
 
@@ -55,34 +69,37 @@
 	let postting: iPost[] = [];
 
 	onMount(async () => {
+		
 		const group = "group1";
 		const chat = await fetch(`/api/chat?group=${group}`);
 		chatting = await chat.json();
 		const post = await fetch(`/api/post?group=${group}`);
 		postting = await post.json();
-		// posts = await post.json();
-		// console.log(await pro.Body.)
-	});
+		
+	})
+	
+	// async function img(){
+	// 	const get = await s3.send(
+	// 		new GetObjectCommand({
+	// 			Bucket: albumBucketName,
+	// 			Key: 
+	// 		})
+	// 	);
+	// }
 
 	let search="";
-	function reload() {
-		window.location.reload();
-	}
-
+	
 	let files: FileList;
+	 
 	let src = "";
 	$: {
 		if (files?.[0]) {
 			let t = files[0];
-			fetch(`/community/img?name=${t.name}`, {
-				method: "POST",
-				body: t,
-			}).then((v) => v.text());
-			// .then(v => console.log(v));
 			URL.revokeObjectURL(src);
 			src = URL.createObjectURL(t);
 		}
 	}
+	
 	let a="";
 	function find(){
 		search=a;
@@ -114,12 +131,13 @@
 		<div class="group">
 			{#each postting as post}
 			{#if post.body.includes(search)  || post.title.includes(search)}
-				<div
-					style="width: 300px; height:200px;display:inline-block;margin-left:30px;"
-				>
+				<!-- <div
+					style="width: 300px; height:200px; display:inline-block; margin-left:30px;"
+				> -->
+				<span>
 					<Card
 						href="/post/{post._id}"
-						img="https://img.sbs.co.kr/newimg/news/20181126/201253735_1280.jpg"
+						img={post.img}
 					>
 						<h5
 							class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -131,8 +149,10 @@
 						>
 							{post.body.slice(0, 20)}...
 						</p>
-					</Card>
-				</div>
+					</Card> 
+				</span>
+					
+				<!-- </div> -->
 			{/if}
 				
 			{/each}
@@ -212,7 +232,7 @@
 										},
 									];
 									chat = "";
-									reload();
+									
 									e.preventDefault();
 								}
 							}}
@@ -266,12 +286,14 @@
 			<Button
 				color="purple"
 				on:click={async (e) => {
+					let file = files[0]
 					const description = {
 						user: displayName,
 						group: "group1",
 						date: new Date(),
 						title,
 						body,
+						img:file.name
 					};
 
 					const response = await fetch("/api/post/upload", {
@@ -281,8 +303,14 @@
 							"Content-Type": "application/json",
 						},
 					});
-
-					// Array(displayName, chat, new Date());
+					
+					const blob = new Blob([file], { type: file.type });		
+					const pro = await s3.send(new PutObjectCommand({
+								Bucket:"project0884",
+								Key:file.name,
+					 			Body:blob,
+							}))
+					
 
 					await response.json();
 					postting = [
@@ -293,9 +321,10 @@
 							date: new Date(),
 							title,
 							body,
-							
+							img:file.name
 						},
 					];
+					src="";
 					console.log(files);
 					title = "";
 					body = "";

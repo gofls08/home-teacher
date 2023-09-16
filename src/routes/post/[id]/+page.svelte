@@ -13,6 +13,14 @@
 
     const auth = getAuth();
 
+    onMount(async () => {
+		
+		const group = "group1";
+		const reply = await fetch(`/api/reply?group=${group}`);
+		replies = await reply.json();
+		console.log(replies);
+	})
+
     const curUser = auth.currentUser;
     let displayName = " ";
     if (curUser !== null) {
@@ -49,17 +57,19 @@
             <hr />
             <div>
                 {#if curUser}
-                    {#each replies as replies}
-                        {#if posts._id === replies.postId}
+                    {#each replies as reply, i}
+                        {#if posts._id === reply.postId}
+                            {#if i >= replies.length - 5}
                             <div
                                 style="margin-top: 30px; margin-left:10px;"
                             >
                                 <span class="profile"
-                                    >{replies.user.charAt(0)}</span
+                                    >{reply.user.charAt(0)}</span
                                 >
-                                <div class="reply">{replies.content}</div>
-                                <div class="date">{replies.date}</div>
+                                <div class="reply">{reply.content}</div>
+                                <div class="date">{reply.date}</div>
                             </div>
+                            {/if}
                         {/if}
                     {/each}
 
@@ -72,6 +82,7 @@
                                     user: displayName,
                                     date: new Date(),
                                     content,
+                                    group:'group1'
                                 };
 
                                 const response = await fetch(
@@ -114,7 +125,8 @@
 <style>
     .container {
         width: 60%;
-        height: 100%;
+        height: 100vh;
+		padding-bottom: 20px;
         background-color: white;
     }
     /* .group{
@@ -129,12 +141,15 @@
 	} */
     body {
         width: 100%;
-        height: 100vh;
+        height: 690px;
         padding: 20px;
         border: 1px none #000;
         background-color: rgb(237, 237, 250);
         justify-content: center;
         display: flex;
+        padding: 20px;
+		overflow: scroll;
+		border: 1px none #000;
     }
     .right {
         text-align: right;
@@ -165,7 +180,7 @@
         width: 55%;
         height: 80px;
         position: fixed;
-        bottom: 10px;
+        bottom: 15px;
         border: 1px solid white;
         border-top: 1px solid rgb(132, 132, 216);
         padding: 10px;
