@@ -14,6 +14,7 @@ export interface iPost {
         user: any | null;
         date: Date;
         content: string;
+        group:string;
     }
 export interface iChat {
 		// _id: string;
@@ -22,3 +23,15 @@ export interface iChat {
 		date: Date;
 		group: string;
 	}
+
+export interface iUser{
+    user: string,
+    uid:string,
+    group:Array,
+}
+
+export interface iGroup{
+    name: string,
+    _id:ObjectId,
+    num: number
+}

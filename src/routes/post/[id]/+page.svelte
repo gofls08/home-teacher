@@ -2,7 +2,7 @@
     import { ImagePlaceholder } from "flowbite-svelte";
     import { createEventDispatcher, onMount } from "svelte";
     import { Img, Avatar } from "flowbite-svelte";
-    import type { iPost } from "$lib/type";
+    import type { iPost,iUser } from "$lib/type";
     import type {Reply} from "$lib/type";
     let replies: Reply[] = [];
     export let data:PageServerData;
@@ -59,7 +59,7 @@
                 {#if curUser}
                     {#each replies as reply, i}
                         {#if posts._id === reply.postId}
-                            {#if i >= replies.length - 5}
+                            {#if i >= replies.length - 3}
                             <div
                                 style="margin-top: 30px; margin-left:10px;"
                             >
@@ -107,6 +107,7 @@
                                          user: displayName,
                                          date: new Date(),
                                          content,
+                                         group:'group1'
                                      },
                                  ];
                                 content = "";

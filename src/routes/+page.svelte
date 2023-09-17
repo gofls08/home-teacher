@@ -1,24 +1,53 @@
 <script lang="ts">
     import { login, logout } from "$lib/script/login";
+    import { getAuth } from "firebase/auth";
+    import type { iGroup, iUser } from "$lib/type";
     import {
-        Card,
         MenuButton,
-        Dropdown,
-        DropdownItem,
-        Avatar,
         Button,
-        Search,
+        Modal,
+		Textarea,
+		Toolbar,
+		Avatar,
+		Card,
+		Search
     } from "flowbite-svelte";
+    import { onMount } from "svelte";
 
-    interface myGroup {
-        name: string;
-        join: boolean;
-    }
-    let groups: myGroup[] = [
-        { name: "group-1", join: true },
-        { name: "group-2", join: false },
-        { name: "group-3", join: false },
-    ];
+     interface myGroup {
+         name: string;
+         join: boolean;
+     }
+     let groups: myGroup[] = [
+         { name: "group-1", join: true },
+         { name: "group-2", join: false },
+         { name: "group-3", join: false },
+     ];
+import db from "$lib/db"
+    const auth = getAuth();
+    const curUser = auth.currentUser;
+    
+    let group:iGroup[]=[];
+    let users:iUser[]=[];
+    onMount(async () => {
+        const User = await fetch(`/api/user?uid=${curUser?.uid}`);
+	    users = await User.json();
+        console.log(users);
+        const Group = await fetch(`/api/group`);
+	    group = await Group.json();
+    })
+	
+
+    let con = false;
+
+	function content() {
+		con = true;
+	}
+
+    let groupName ="";
+
+	let displayName = " ";
+
     let search = "";
     let s ="";
 
@@ -48,10 +77,11 @@
     </form>
 
     <div class="container" style="display: flex;">
-        {#each groups as group, i}
-        {#if group.name.includes(search)}
-            {#if group.join}
-                <Card href="./group/{i + 1}" style="height:40%; margin:20px;">
+        {#each group  as group}
+        <!-- {#each users as user} -->
+            {#if group.name.includes(search)}
+            <!-- {#if user.group.contain( group.name)} -->
+                <Card href="./group/{group.num}" style="height:40%; margin:20px;">
                     <div class="flex justify-end">
                         <MenuButton />
                     </div>
@@ -67,7 +97,7 @@
                         </h5>
                         <div class="flex mt-4 space-x-3 lg:mt-6">
                             <Button on:click={()=>{
-                                group.join = false;
+                                
                             }} href="./">Left this Group</Button>
                         </div>
                     </div>
@@ -93,10 +123,55 @@
                     </div>
                 </Card>
             {/if}
-        {/if}
+        <!-- {/if} -->
+        {/each}
+        
             
 
-        {/each}
+        <!-- {/each} -->
+        <Modal title="Add to Content" bind:open={con} autoclose>
+            <label for="editor" class="sr-only">Publish post</label>
+            <input type="text" bind:value={groupName} placeholder="title" />
+            <svelte:fragment slot="footer">
+                <Button
+                    color="purple"
+                    on:click={async (e) => {
+                        
+
+                        const collection = db.collection("Group");
+                        const num = collection.count
+                        const description = {
+                           name:groupName,
+                           num,
+                        };
+    
+                        const response = await fetch("/api/group/upload", {
+                            method: "POST",
+                            body: JSON.stringify({ description }),
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        });
+    
+                        await response.json();
+                        // postting = [
+                        //     ...postting,
+                        //     {	
+                        //         user: displayName,
+                        //         group: "group1",
+                        //         date: new Date(),
+                        //         title,
+                        //         body,
+                        //         img:file.name
+                        //     },
+                        // ];
+                        
+                        e.preventDefault();
+                    }}>Publish</Button
+                >
+                <Button color="alternative">Decline</Button>
+            </svelte:fragment>
+        </Modal>
     </div>
 </body>
 

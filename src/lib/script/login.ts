@@ -6,6 +6,7 @@ import {
     signInWithPopup, //signin 방법
 } from "firebase/auth"; // auth = 인증 정보 가져옴(인증 정보 상태)
 import type { User } from "firebase/auth";
+import type { iUser } from "$lib/type";
 import {
     getApps,
     initializeApp,
@@ -17,6 +18,7 @@ export const login = async (firebaseConfig: FirebaseOptions) => {
         //앱 존재 확인
         initializeApp(firebaseConfig);
     }
+    let displayName ="";
     const provider = new GoogleAuthProvider();
     const auth = getAuth(); //auth 정보 받아옴
     provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -27,7 +29,48 @@ export const login = async (firebaseConfig: FirebaseOptions) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken; //토큰 id, 서버 저장
         const user = result.user;
+        let users:iUser[]=[];
+		const User = await fetch(`/api/user?uid=${user.uid}`);
+		users = await User.json();
+         if (user !== null) {
+            user.providerData.forEach((profile) => {
+                if (profile.displayName !== null) {
+                    displayName = profile.displayName;
+                }
+            });
+        }
+        //console.log(users);
+        if(users.length===0){
+            const description = {
+            name: displayName,
+            uid:user.uid,
+            group:[]
+        };
+
+        const response = await fetch(
+            "/api/user/upload",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    description,
+                }),
+                headers: {
+                    "Content-Type":
+                        "application/json",
+                },
+            }
+        );
+        await response.json();
+        }else{
+            //console.log("이미 있는 유저");
+        }
+        
+
+        // Array(displayName, chat, new Date());
+
+        
         return { token, user };
+       
     } catch (error) {
         if (error instanceof FirebaseError) {
             //firebase 내 error
