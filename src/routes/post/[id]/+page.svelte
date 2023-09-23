@@ -19,6 +19,7 @@
 		const reply = await fetch(`/api/reply?group=${group}`);
 		replies = await reply.json();
 		console.log(replies);
+        console.log(`https://project0884.s3.ap-northeast-2.amazonaws.com/${posts.img}`)
 	})
 
     const curUser = auth.currentUser;
@@ -46,7 +47,7 @@
             <div style="margin: 20px;">{posts.body}</div>
             {#if posts.img}
                <Img
-                src={posts.img}
+                src="https://project0884.s3.ap-northeast-2.amazonaws.com/{posts.img}"
                 alt="sample 1"
                 size="max-w-lg"
                 class="rounded-lg"

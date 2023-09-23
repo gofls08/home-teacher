@@ -86,19 +86,21 @@
 	// 		})
 	// 	);
 	// }
+	
+	
 
 	let search="";
 	
 	let files: FileList;
 	 
 	let src = "";
-	$: {
-		if (files?.[0]) {
-			let t = files[0];
-			URL.revokeObjectURL(src);
-			src = URL.createObjectURL(t);
-		}
-	}
+	// $: {
+	// 	if (files?.[0]) {
+	// 		let t = files[0];
+	// 		URL.revokeObjectURL(src);
+	// 		src = URL.createObjectURL(t);
+	// 	}
+	// }
 	
 	let a="";
 	function find(){
@@ -137,7 +139,7 @@
 				<span>
 					<Card
 						href="/post/{post._id}"
-						img={post.img}
+						img="https://project0884.s3.ap-northeast-2.amazonaws.com/{post.img}"
 					>
 						<h5
 							class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -149,6 +151,7 @@
 						>
 							{post.body.slice(0, 20)}...
 						</p>
+						
 					</Card> 
 				</span>
 					
@@ -310,8 +313,8 @@
 								Key:file.name,
 					 			Body:blob,
 							}))
+							
 					
-
 					await response.json();
 					postting = [
 						...postting,
@@ -334,6 +337,7 @@
 			<Button color="alternative">Decline</Button>
 		</svelte:fragment>
 	</Modal>
+	
 </body>
 
 <style>

@@ -10,7 +10,8 @@
 		Toolbar,
 		Avatar,
 		Card,
-		Search
+		Search,
+        SpeedDial
     } from "flowbite-svelte";
     import { onMount } from "svelte";
 
@@ -18,12 +19,7 @@
          name: string;
          join: boolean;
      }
-     let groups: myGroup[] = [
-         { name: "group-1", join: true },
-         { name: "group-2", join: false },
-         { name: "group-3", join: false },
-     ];
-import db from "$lib/db"
+     
     const auth = getAuth();
     const curUser = auth.currentUser;
     
@@ -35,6 +31,7 @@ import db from "$lib/db"
         console.log(users);
         const Group = await fetch(`/api/group`);
 	    group = await Group.json();
+        console.log(group);
     })
 	
 
@@ -54,6 +51,7 @@ import db from "$lib/db"
     function find(){
         search=s;
     }
+    let files: FileList;
 </script>
 
 <body>
@@ -78,10 +76,10 @@ import db from "$lib/db"
 
     <div class="container" style="display: flex;">
         {#each group  as group}
-        <!-- {#each users as user} -->
+      {#each users as user}
             {#if group.name.includes(search)}
-            <!-- {#if user.group.contain( group.name)} -->
-                <Card href="./group/{group.num}" style="height:40%; margin:20px;">
+           
+                <Card href="./group/{group.name}" style="height:40%; margin:20px;">
                     <div class="flex justify-end">
                         <MenuButton />
                     </div>
@@ -96,14 +94,12 @@ import db from "$lib/db"
                             {group.name}
                         </h5>
                         <div class="flex mt-4 space-x-3 lg:mt-6">
-                            <Button on:click={()=>{
-                                
-                            }} href="./">Left this Group</Button>
+                            <Button>Left this Group</Button>
                         </div>
                     </div>
                 </Card>
-            {:else}
-                <Card  style="height:40%; margin:20px;">
+            
+               <!-- <Card  style="height:40%; margin:20px;">
                     <div class="flex justify-end">
                         <MenuButton />
                     </div>
@@ -121,28 +117,49 @@ import db from "$lib/db"
                             <Button>Join this Group</Button>
                         </div>
                     </div>
-                </Card>
+                </Card> -->
             {/if}
-        <!-- {/if} -->
         {/each}
-        
-            
-
-        <!-- {/each} -->
-        <Modal title="Add to Content" bind:open={con} autoclose>
+        {/each}
+         </div>
+        <div on:click={content}>
+            <SpeedDial
+                defaultClass="absolute left-18 bottom-6"
+                color="purple"
+                tooltip="none"
+                style="background-color:rgb(132, 132, 216);"
+            >
+                <svg
+                    slot="icon"
+                    aria-hidden="true"
+                    class="w-8 h-8"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    ><path
+                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+                    /></svg
+                >
+            </SpeedDial>
+        </div>    
+       
+            <Modal title="Add to Content" bind:open={con} autoclose>
             <label for="editor" class="sr-only">Publish post</label>
-            <input type="text" bind:value={groupName} placeholder="title" />
+            <input type="text" bind:value={groupName} placeholder="Write a group name" />
+            
+			<Toolbar color="dark" slot="header" embedded>
+				<input type="file" accept="image/*" bind:files />
+			</Toolbar>
+			<hr />
+           
+			<!-- <img { src } alt="" style="height: 30%; width:30%"> -->
             <svelte:fragment slot="footer">
                 <Button
                     color="purple"
                     on:click={async (e) => {
                         
-
-                        const collection = db.collection("Group");
-                        const num = collection.count
                         const description = {
-                           name:groupName,
-                           num,
+                           name:groupName
                         };
     
                         const response = await fetch("/api/group/upload", {
@@ -172,7 +189,9 @@ import db from "$lib/db"
                 <Button color="alternative">Decline</Button>
             </svelte:fragment>
         </Modal>
-    </div>
+       
+        
+  
 </body>
 
 <style>
