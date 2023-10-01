@@ -2,7 +2,7 @@ import type { ObjectId } from "mongodb";
 
 export interface iPost {
     user: any | null;
-    group: string;
+    group: string | undefined;
     date: Date;
     title: string;
     body: string;
@@ -14,14 +14,14 @@ export interface iPost {
         user: any | null;
         date: Date;
         content: string;
-        group:string;
+        group:string | undefined;
     }
 export interface iChat {
 		// _id: string;
 		user: any | null;
 		chat: string;
 		date: Date;
-		group: string;
+		group: string | undefined
 	}
 
 export interface iUser{
@@ -33,5 +33,4 @@ export interface iUser{
 export interface iGroup{
     name: string,
     _id:ObjectId,
-    num: number
 }

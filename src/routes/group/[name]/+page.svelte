@@ -23,15 +23,14 @@
 		Card,
 		Search
 	} from "flowbite-svelte";
-	
 	export let data:PageServerData;
 	import type { PageServerData } from "./$types";
 	const s3 = new S3Client({
 			apiVersion: "2006-03-01",
 			region: bucketRegion,
 			credentials: {
-				accessKeyId:data.aws.AWS_ACCESS,
-				secretAccessKey: data.aws.AWS_SECRET_ACCESS
+				accessKeyId:data.result.aws.AWS_ACCESS,
+				secretAccessKey: data.result.aws.AWS_SECRET_ACCESS
 			},
 		});
 
@@ -51,7 +50,7 @@
 	}
 
 	let chat = "";
-	
+	const group = data.result.result?.name;
 
 	let con = false;
 
@@ -70,7 +69,7 @@
 
 	onMount(async () => {
 		
-		const group = "group1";
+		console.log(group);
 		const chat = await fetch(`/api/chat?group=${group}`);
 		chatting = await chat.json();
 		const post = await fetch(`/api/post?group=${group}`);
@@ -205,7 +204,7 @@
 										user: displayName,
 										chat,
 										date: new Date(),
-										group: "group1",
+										group: group,
 									};
 
 									const response = await fetch(
@@ -231,7 +230,7 @@
 											user: displayName,
 											chat,
 											date: new Date(),
-											group: "group1",
+											group: group,
 										},
 									];
 									chat = "";
@@ -292,7 +291,7 @@
 					let file = files[0]
 					const description = {
 						user: displayName,
-						group: "group1",
+						group: group,
 						date: new Date(),
 						title,
 						body,
@@ -320,7 +319,7 @@
 						...postting,
 						{	
 							user: displayName,
-							group: "group1",
+							group: group,
 							date: new Date(),
 							title,
 							body,
