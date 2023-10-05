@@ -78,7 +78,7 @@
         {#each group  as group}
       {#each users as user}
             {#if group.name.includes(search)}
-           
+            {#if user.group.includes(group.name)}
                 <Card href="./group/{group.name}" style="height:40%; margin:20px;">
                     <div class="flex justify-end">
                         <MenuButton />
@@ -94,30 +94,36 @@
                             {group.name}
                         </h5>
                         <div class="flex mt-4 space-x-3 lg:mt-6">
-                            <Button>Left this Group</Button>
+                            <Button on:click(){
+
+                            }>Left this Group</Button>
                         </div>
                     </div>
                 </Card>
-            
-               <!-- <Card  style="height:40%; margin:20px;">
-                    <div class="flex justify-end">
-                        <MenuButton />
-                    </div>
-                    <div class=" flex flex-col items-center pb-4">
-                        <Avatar
-                            size="lg"
-                            src="https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?cs=srgb&dl=pexels-fauxels-3184398.jpg&fm=jpg"
-                        />
-                        <h5
-                            class="mb-1 text-xl font-medium text-gray-900 dark:text-white"
-                        >
-                            {group.name}
-                        </h5>
-                        <div class="flex mt-4 space-x-3 lg:mt-6">
-                            <Button>Join this Group</Button>
+            {:else}
+                <Card  style="height:40%; margin:20px;">
+                        <div class="flex justify-end">
+                            <MenuButton />
                         </div>
-                    </div>
-                </Card> -->
+                        <div class=" flex flex-col items-center pb-4">
+                            <Avatar
+                                size="lg"
+                                src="https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?cs=srgb&dl=pexels-fauxels-3184398.jpg&fm=jpg"
+                            />
+                            <h5
+                                class="mb-1 text-xl font-medium text-gray-900 dark:text-white"
+                            >
+                                {group.name}
+                            </h5>
+                            <div class="flex mt-4 space-x-3 lg:mt-6">
+                                <Button>Join this Group</Button>
+                            </div>
+                        </div>
+                    </Card>
+            {/if}
+                
+            
+              
             {/if}
         {/each}
         {/each}

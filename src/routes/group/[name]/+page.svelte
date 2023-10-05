@@ -50,7 +50,7 @@
 	}
 
 	let chat = "";
-	const group = data.result.result?.name;
+	const group = data.result.params.name;
 
 	let con = false;
 
