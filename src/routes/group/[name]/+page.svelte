@@ -300,7 +300,7 @@
 
 					const response = await fetch("/api/post/upload", {
 						method: "POST",
-						body: JSON.stringify({ description }),
+						body: JSON.stringify({ description ,body} ),
 						headers: {
 							"Content-Type": "application/json",
 						},

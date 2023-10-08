@@ -71,7 +71,7 @@ align-items: center; margin-top:23%;">
 <Navbar let:hidden let:toggle>
   <NavBrand href="/">
     <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-      Flowbite
+      Home-Teacher
     </span>
   </NavBrand>
   <NavHamburger on:click={toggle} />

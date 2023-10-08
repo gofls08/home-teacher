@@ -94,9 +94,7 @@
                             {group.name}
                         </h5>
                         <div class="flex mt-4 space-x-3 lg:mt-6">
-                            <Button on:click(){
-
-                            }>Left this Group</Button>
+                            <Button >Left this Group</Button>
                         </div>
                     </div>
                 </Card>
@@ -116,7 +114,46 @@
                                 {group.name}
                             </h5>
                             <div class="flex mt-4 space-x-3 lg:mt-6">
-                                <Button>Join this Group</Button>
+                                <Button on:click={async (e) => {
+                                   const res = await fetch(
+										"/api/user/delete",
+										{
+											method: "POST",
+											body: JSON.stringify({
+												
+                                                uid:user.uid,
+                                                
+                                                
+											}),
+											headers: {
+												"Content-Type":
+													"application/json",
+											},
+										}
+									);
+									await res.json();
+                                    
+									
+									const response = await fetch(
+										"/api/user/upload",
+										{
+											method: "POST",
+											body: JSON.stringify({
+												name:user.name,
+                                                uid:user.uid,
+                                                group:Array(user.group).push(group.name)
+                                                
+											}),
+											headers: {
+												"Content-Type":
+													"application/json",
+											},
+										}
+									);
+									await response.json();
+									e.preventDefault();
+								
+                                }}>Join this Group</Button>
                             </div>
                         </div>
                     </Card>
