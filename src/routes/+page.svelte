@@ -78,7 +78,7 @@
         {#each group  as group}
       {#each users as user}
             {#if group.name.includes(search)}
-            {#if user.group.includes(group.name)}
+            {#if Array(user.group).includes(group.name)}
                 <Card href="./group/{group.name}" style="height:40%; margin:20px;">
                     <div class="flex justify-end">
                         <MenuButton />
@@ -131,17 +131,20 @@
 											},
 										}
 									);
-									await res.json();
                                     
-									
+									await res.json();
+                                    const description = {
+                                        name:user.name,
+                                        uid:user.uid,
+                                        group:Array(user.group).push(group.name)
+                                    };
+
 									const response = await fetch(
 										"/api/user/upload",
 										{
 											method: "POST",
 											body: JSON.stringify({
-												name:user.name,
-                                                uid:user.uid,
-                                                group:Array(user.group).push(group.name)
+												description
                                                 
 											}),
 											headers: {

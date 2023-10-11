@@ -51,7 +51,7 @@
                 alt="sample 1"
                 size="max-w-lg"
                 class="rounded-lg"
-                style="text-align:center; margin-left:20%; margin-bottom: 20px;"
+                style="text-align:center;  margin-bottom: 20px;"
             /> 
             {/if}
             
@@ -74,7 +74,7 @@
                         {/if}
                     {/each}
 
-                    <textarea
+                    <!-- <textarea
                         bind:value={content}
                         on:keypress={async (e) => {
                             if (e.code === "Enter" && !e.shiftKey) {
@@ -117,7 +117,7 @@
                             }
                         }}
                         placeholder="Press Enter for send message."
-                    />
+                    /> -->
                 {/if}
             </div>
         </div>

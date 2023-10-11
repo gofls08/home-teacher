@@ -51,7 +51,6 @@
 
 	let chat = "";
 	const group = data.result.params.name;
-
 	let con = false;
 
 	function content() {
@@ -297,10 +296,9 @@
 						body,
 						img:file.name
 					};
-
 					const response = await fetch("/api/post/upload", {
 						method: "POST",
-						body: JSON.stringify({ description ,body} ),
+						body: JSON.stringify({ description }),
 						headers: {
 							"Content-Type": "application/json",
 						},

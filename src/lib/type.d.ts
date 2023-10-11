@@ -25,7 +25,7 @@ export interface iChat {
 	}
 
 export interface iUser{
-    user: string,
+    name: string,
     uid:string,
     group:Array,
 }
