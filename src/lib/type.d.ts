@@ -1,36 +1,36 @@
 import type { ObjectId } from "mongodb";
 
 export interface iPost {
-    user: any | null;
-    group: string | RouteParams;
-    date: Date;
-    title: string;
-    body: string;
-    img?: string;
-    _id?:ObjectId;
+  user: any | null;
+  group: string | RouteParams;
+  date: Date;
+  title: string;
+  body: string;
+  img?: string;
+  _id?: ObjectId;
 }
- export interface Reply {
-        postId: string;
-        user: any | null;
-        date: Date;
-        content: string;
-        group: string | RouteParams;
-    }
+export interface Reply {
+  postId: string;
+  user: any | null;
+  date: Date;
+  content: string;
+  group: string | RouteParams;
+}
 export interface iChat {
-		// _id: string;
-		user: any | null;
-		chat: string;
-		date: Date;
-		group: string | RouteParams;
-	}
-
-export interface iUser{
-    name: string,
-    uid:string,
-    group:Array,
+  // _id: string;
+  user: any | null;
+  chat: string;
+  date: Date;
+  group: string | RouteParams;
 }
 
-export interface iGroup{
-    name: string,
-    _id:ObjectId,
+export interface iUser {
+  name: string;
+  uid: string;
+  group: String;
+}
+
+export interface iGroup {
+  name: string;
+  _id: ObjectId;
 }
