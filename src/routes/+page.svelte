@@ -61,6 +61,10 @@
     search = s;
   }
   let files: FileList;
+
+  function reload() {
+		window.location.reload();
+	}
 </script>
 
 <body>
@@ -133,7 +137,7 @@
                 });
                 await response.json();
                 e.preventDefault();
-                
+                reload();
               }}>Left this Group</Button>
             </div>
           </div>
@@ -185,7 +189,9 @@
                     },
                   });
                   await response.json();
+                  
                   e.preventDefault();
+                  reload();
                 }}>Join this Group</Button
               >
             </div>
