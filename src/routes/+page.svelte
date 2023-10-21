@@ -15,6 +15,7 @@
   } from "flowbite-svelte";
   import { onMount } from "svelte";
   import { split } from "postcss/lib/list";
+  import { goto } from "$app/navigation";
 
   interface myGroup {
     name: string;
@@ -105,7 +106,8 @@
               {group.name}
             </h5>
             <div class="flex mt-4 space-x-3 lg:mt-6">
-              <Button on:click={async (e) => {
+              <Button href="/" on:click={async (e) => {
+                
                 const res = await fetch("/api/user/delete", {
                   method: "POST",
                   body: JSON.stringify({
@@ -118,8 +120,7 @@
                 
                
                 await res.json();
-                user.group = user.group.replace(group.name, '');
-                
+                user.group = user.group.replace(group.name + ',', '');
                 const description = {
                   name: user.name,
                   uid: user.uid,
@@ -135,9 +136,11 @@
                     "Content-Type": "application/json",
                   },
                 });
+                // e.stopPropagation();
                 await response.json();
-                e.preventDefault();
-                reload();
+                // e.preventDefault();
+                
+                
               }}>Left this Group</Button>
             </div>
           </div>
@@ -157,7 +160,7 @@
               {group.name}
             </h5>
             <div class="flex mt-4 space-x-3 lg:mt-6">
-              <Button
+              <Button href="./group/{group.name}"
                 on:click={async (e) => {
                   const res = await fetch("/api/user/delete", {
                     method: "POST",
@@ -191,7 +194,7 @@
                   await response.json();
                   
                   e.preventDefault();
-                  reload();
+                 
                 }}>Join this Group</Button
               >
             </div>
