@@ -29,7 +29,7 @@
 			apiVersion: "2006-03-01",
 			region: bucketRegion,
 			credentials: {
-				accessKeyId:data.result.aws.AWS_ACCESS,
+				accessKeyId: data.result.aws.AWS_ACCESS,
 				secretAccessKey: data.result.aws.AWS_SECRET_ACCESS
 			},
 		});
@@ -65,15 +65,54 @@
 
 	let chatting: iChat[] = [];
 	let postting: iPost[] = [];
-
+	let ws:WebSocket;
 	onMount(async () => {
 		
-		console.log(group);
+		ws = new WebSocket('ws://localhost:3500');
+		const openFunc = () => {
+			console.log('연결 완료')
+			// ws.send(JSON.stringify({type:'init', id:displayName}))
+		}
+		const closeFunc = (ev:CloseEvent) => {
+			console.log('연결 끊김')
+		}
+		const errorFunc = (ev:Event) => {
+			console.log('연결 오류')
+		}
+		const messageFunc = (ev:MessageEvent<any>) => {
+			const json = JSON.parse(ev.data)
+			
+			if(json.type === 'common'){
+				 if(String(json.group) === group){
+					chatting = [
+					...chatting,
+					{
+						user: json.id,
+						chat: json.mes,
+						date: new Date(),
+						group: json.group
+					},
+				];
+				}
+				
+				
+			 }
+		}
+		ws.addEventListener('open', openFunc)
+		ws.addEventListener('close', closeFunc)
+		ws.addEventListener('error', errorFunc)
+
+		ws.addEventListener('message', messageFunc)
 		const chat = await fetch(`/api/chat?group=${group}`);
 		chatting = await chat.json();
 		const post = await fetch(`/api/post?group=${group}`);
 		postting = await post.json();
-		
+		return () => {
+			ws.removeEventListener('open', openFunc)
+			ws.removeEventListener('close', closeFunc)
+			ws.removeEventListener('error', errorFunc)
+			ws.removeEventListener('message', messageFunc)
+		}
 	})
 	
 	// async function img(){
@@ -99,7 +138,8 @@
 	// 		src = URL.createObjectURL(t);
 	// 	}
 	// }
-	
+	let webId;
+	let webMes;
 	let a="";
 	function find(){
 		search=a;
@@ -198,7 +238,12 @@
 						<textarea
 							bind:value={chat}
 							on:keypress={async (e) => {
+								 
+           
+            				
+      
 								if (e.code === "Enter" && !e.shiftKey) {
+									ws.send(JSON.stringify({type:'common', id:displayName, mes:chat, group:group}));
 									const description = {
 										user: displayName,
 										chat,
@@ -223,15 +268,7 @@
 									// Array(displayName, chat, new Date());
 
 									await response.json();
-									chatting = [
-										...chatting,
-										{
-											user: displayName,
-											chat,
-											date: new Date(),
-											group: group,
-										},
-									];
+									
 									chat = "";
 									
 									e.preventDefault();

@@ -18,7 +18,7 @@ export interface Reply {
 }
 export interface iChat {
   // _id: string;
-  user: any | null;
+  user: any;
   chat: string;
   date: Date;
   group: string | RouteParams;

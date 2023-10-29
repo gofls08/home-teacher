@@ -37,7 +37,13 @@
   };
 
 
-    const firebaseConfig = data.firebaseConfig;
+    const firebaseConfig = {
+      apiKey : "AIzaSyCFc2TiCdeg4I3VnFg8Yb5qTji8DsK0ckM",
+      authDomain : "home-teacher-c7079.firebaseapp.com",
+      projectId : "home-teacher-c7079",
+      storageBucket : "home-teacher-c7079.appspot.com",
+      messagingSenderId : "460762550443",
+      appId : "1:460762550443:web:5158c47be6ae1852d827ee"};
     let curUser: User | null = null; //null = 로그인 x
     let loading = true;
     onMount(() => {
